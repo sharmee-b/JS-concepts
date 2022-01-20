@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playground</title>
+    <script src="script.js" type="text/javascript"></script>
+    <script>
+        var handleChange = function () {
+            console.log("API Call");
+        };
+
+        const debounce = function (fn, waitTime) {
+            let timer;
+            return function (...args) {
+                let context = this;
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    fn.apply(context, args);
+                }, waitTime);
+            };
+        };
+
+        const throttle = function (fn, waitTime) {
+            let flag = true;
+            return function (...args) {
+                let context = this;
+                if (flag) {
+                    fn.apply(context, args);
+                    flag = false;
+                    setTimeout(() => {
+                        flag = true;
+                    }, waitTime)
+                }
+
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <input type="text" onkeyup="debounce(handleChange(), 300)"></input>
+    <input type="text" onkeyup="throttle(handleChange(), 300)"></input>
+
+</body>
+
+</html>
